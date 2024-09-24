@@ -9,4 +9,11 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  // test for connection!!
+  @Get('ping')
+  ping() {
+    return { message: 'Connected!!' };  
+  }
+  
 }

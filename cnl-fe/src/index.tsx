@@ -7,14 +7,16 @@ import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
   <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-      </Routes>
-    </Router>
+    <Provider store={store}>
+      <LandingPage />
+    </Provider>
   </React.StrictMode>
 );
 
