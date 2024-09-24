@@ -8,10 +8,11 @@ export const LandingPage: React.FC = () => {
  
   if (error) return <div>Error fetching data</div>;
 
+  console.log(data);
+  
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
 
-<p>Backend response: {data?.message}</p>
 
       <h1 className="text-4xl font-bold mb-8">Welcome to Chat & Learn </h1>
       <GoogleLoginButton />

@@ -4,8 +4,9 @@ import googleIcon from '../../assets/icons/google-icon.png';
 
 export const GoogleLoginButton: React.FC = () => {
   const handleLogin = () => {
-    // This will redirect to your backend's Google login route
-    window.location.href = 'http://localhost:4000/auth/google';  
+    // -- backend's Google login route
+    // !!
+    window.location.href = 'http://localhost:4000/api/auth/google';  
   };
 
   return (
