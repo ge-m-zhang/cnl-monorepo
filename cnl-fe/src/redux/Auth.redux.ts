@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-// the base URL of your backend and setup credentials for session handling
+// the base URL of backend and setup credentials for session handling
 export const authSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
