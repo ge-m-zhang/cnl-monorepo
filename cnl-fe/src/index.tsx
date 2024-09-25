@@ -2,14 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import './styles/global.css'; // Import Tailwind CSS
+import { BrowserRouter as Router } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+// Create a QueryClient instance
+const queryClient = new QueryClient();
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
   <React.StrictMode>
-    <App />
+    {/* Provide TanStack Query context */}
+    <QueryClientProvider client={queryClient}>
+      {/* Include React Router */}
+      <Router>
+        <App />
+      </Router>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
