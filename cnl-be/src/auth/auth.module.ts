@@ -1,5 +1,5 @@
 // auth.module.ts
-import { Module } from '@nestjs/common';
+import { Injectable, Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { GoogleStrategy } from './strategies/google.strategy';
@@ -8,20 +8,36 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
  // Import the Google strategy
 
- @Module({
+
+ import { PassportSerializer } from '@nestjs/passport';
+
+ @Injectable()
+ export class SessionSerializer extends PassportSerializer {
+   serializeUser(user: any, done: Function) {
+     done(null, user);
+   }
+ 
+   deserializeUser(payload: any, done: Function) {
+     done(null, payload);
+   }
+ }
+
+@Module({
     imports: [
-      ConfigModule.forRoot(),  // Load environment variables
-      PassportModule.register({ session: true }),  // Use session for OAuth
+      ConfigModule.forRoot({
+        isGlobal: true,  
+      }), 
+      PassportModule.register({ session: true }), 
       JwtModule.registerAsync({
         imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: async (configService: ConfigService) => ({
-          secret: configService.get<string>('JWT_SECRET'),  // Use JWT_SECRET from .env
-          signOptions: { expiresIn: '1d' },  // Token expiration
+          secret: configService.get<string>('JWT_SECRET'),  
+          signOptions: { expiresIn: '1d' },  
         }),
       }),
     ],
     controllers: [AuthController],
-    providers: [GoogleStrategy, AuthService],
+    providers: [GoogleStrategy, AuthService, SessionSerializer],
   })
   export class AuthModule {}

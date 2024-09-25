@@ -19,24 +19,33 @@ export class AuthController {
     // Initiates the Google OAuth login flow
   }
 
-  @Get('google/callback')
-  @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req, @Res() res: Response) {
-    
-    const user = req.user;  // Retrieved from the GoogleStrategy
-    // Store session or return JWT here
-    res.redirect('/api/auth/profile');  // Redirect after successful login
-  }
+
+    @Get('google/callback')
+@UseGuards(AuthGuard('google'))
+googleAuthRedirect(@Req() req, @Res() res) {
+  // Check if the user is logged in from Google
   
-/*
-  @Get('logout')
-  logout(@Req() req: Request, @Res() res: Response) {
-    req.logout();
-    res.redirect('/');
+  
+  // Manually store the user data in the session
+  req.session.user = req.user;
+  req.session.save((err) => {
+    if (err) {
+      console.error('Error saving session:', err);
+    }
+    
+    res.redirect('/api/auth/profile');
+  });
+}
+  
+
+ 
+@Get('profile')
+getProfile(@Req() req) {
+  if (req.session.user) {
+    console.log('Profile request session:', req.session.user);  
+    return { profile: req.session.user };  
+  } else {
+    return { message: 'User is undefined' };  
   }
-*/
-  @Get('profile')
-  getProfile(@Req() req: Request) {
-    return req.user;  // Return user data stored in session
-  }
+}
 }
