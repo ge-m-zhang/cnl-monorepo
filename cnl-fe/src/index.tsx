@@ -18,7 +18,6 @@ root.render(
     <QueryClientProvider client={queryClient}>
       {/* Include React Router */}
       <Router>
-        {/* Render your main app component */}
         <App />
       </Router>
     </QueryClientProvider>

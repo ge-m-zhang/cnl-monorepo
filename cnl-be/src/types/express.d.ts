@@ -1,5 +1,4 @@
-import { User } from './user.interface';  // Import your User type if available
-
+import { User } from './user.interface';
 declare global {
   namespace Express {
     interface Request {
