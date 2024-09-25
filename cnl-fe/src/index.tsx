@@ -2,21 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import './styles/global.css';  // Import Tailwind CSS
+import './styles/global.css'; // Import Tailwind CSS
+import { BrowserRouter as Router } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import reportWebVitals from './reportWebVitals';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { LandingPage } from './pages/LandingPage';
 
-import { Provider } from 'react-redux';
-import { store } from './redux/store';
+// Create a QueryClient instance
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <LandingPage />
-    </Provider>
+    {/* Provide TanStack Query context */}
+    <QueryClientProvider client={queryClient}>
+      {/* Include React Router */}
+      <Router>
+        {/* Render your main app component */}
+        <App />
+      </Router>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

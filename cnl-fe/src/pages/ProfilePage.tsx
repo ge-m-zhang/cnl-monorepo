@@ -1,8 +1,13 @@
-import { useGetProfileQuery } from "../redux/Auth.redux";
+import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "../api/api";
+
 
 const ProfilePage: React.FC = () => {
    
-    const { data: profile, error, isLoading } = useGetProfileQuery();
+  const { data: profile, error, isLoading } = useQuery({
+    queryKey: ['getProfile'],
+    queryFn: apiClient.getProfile
+  });
   
 console.log("profile: ",profile);
     if (isLoading) return <div>Loading...</div>;

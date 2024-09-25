@@ -1,11 +1,12 @@
 import React from 'react';
 import { GoogleLoginButton } from '../components/auth/GoogleLoginButton';
-import { usePingBackendQuery } from '../redux/apiSlice';
+import { useQuery } from '@tanstack/react-query';
+import { apiClient } from '../api/api';
 
 export const LandingPage: React.FC = () => {
 
-  const { data, error, isLoading } = usePingBackendQuery();
- 
+  const { data, error, isLoading } = useQuery({ queryKey: ['pingBackend'], queryFn: apiClient.pingBackend });
+
   if (error) return <div>Error fetching data</div>;
 
   console.log(data);
