@@ -9,7 +9,7 @@ export const LandingPage: React.FC = () => {
 
   if (error) return <div>Error fetching data</div>;
 
-  console.log(data);
+ //  console.log(data);
   
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
