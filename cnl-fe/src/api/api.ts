@@ -26,5 +26,20 @@ export const apiClient = {
     return response.json();
   },
 
-  // Add other API functions 
+  
+  sendToGPT: async (message: string): Promise<{ response: string }> => {
+    const response = await fetch(`${BASE_URL}/openai/send-to-gpt`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+
+    return response.json();
+  },
 };
