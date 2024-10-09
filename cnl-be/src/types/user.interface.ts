@@ -1,7 +1,7 @@
 import { ChatMessage, ChatPartition } from "./message.interface";
 
 export interface User {
-  email: string;                
+  userId: string;                
   firstName?: string;           
   lastName?: string;            
   profilePicture?: string;      

@@ -1,6 +1,6 @@
 export interface ChatMessage {
-  userEmail: string; 
-  messageId: string;       
+  email: string; 
+  msgid: string;       
   sender: "user" | "bot";   
   message: string;          
   timestamp: Date;          
