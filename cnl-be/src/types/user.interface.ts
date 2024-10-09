@@ -1,4 +1,4 @@
-import { ChatMessage, ChatPartition } from "./message.interface";
+import { ChatMessage } from "./message.interface";
 
 export interface User {
   userId: string;                

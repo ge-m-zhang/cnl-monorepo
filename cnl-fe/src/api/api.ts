@@ -42,4 +42,16 @@ export const apiClient = {
 
     return response.json();
   },
+
+  getDynamoDBTables: async (): Promise<string[]> => {
+    const response = await fetch(`${BASE_URL}/aws/dynamodb/tables`, {
+      credentials: 'include', 
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+
+    return response.json();
+  },
 };

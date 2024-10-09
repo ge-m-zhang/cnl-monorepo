@@ -1,3 +1,5 @@
+import { Chat } from "openai/resources";
+
 export interface ChatMessage {
   msgId: string; 
   userId: string;    
@@ -6,12 +8,13 @@ export interface ChatMessage {
   timestamp: Date;          
 }
 
+  // optional for MVP
+  
   export interface ChatPartition {
-    partitionKey: string;         
-    messages: Set<ChatMessage>;   
+    partitionKey: string;       
+    messages: ChatMessage[];   
   }
 
-  // optional for MVP
   export interface RateLimit {
     userId: string;               
     messagesSent: number;         
