@@ -7,14 +7,17 @@ import { ConfigModule } from '@nestjs/config';
 import { environment } from './environments/environment';
 import { OpenAiController } from './openai/openai.controller';
 import { OpenAiService } from './openai/openai.service';
+import { AWSModule } from './aws/aws.module';
+import { AWSService } from './aws/aws.service';
 
 @Module({
   imports: [ConfigModule.forRoot({
     load: [environment],
     isGlobal: true, 
   }),
+  AWSModule,
   AuthModule,],
   controllers: [AppController, OpenAiController],
-  providers: [AppService, OpenAiService],
+  providers: [AppService, OpenAiService, AWSService],
 })
 export class AppModule {}
