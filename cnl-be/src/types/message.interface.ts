@@ -1,11 +1,10 @@
 export interface ChatMessage {
-  email: string; 
-  msgid: string;       
+  msgId: string; 
+  userId: string;    
   sender: "user" | "bot";   
   message: string;          
   timestamp: Date;          
 }
-
 
   export interface ChatPartition {
     partitionKey: string;         
