@@ -1,5 +1,3 @@
-import { Chat } from "openai/resources";
-
 export interface ChatMessage {
   msgId: string; 
   userId: string;    
@@ -9,7 +7,7 @@ export interface ChatMessage {
 }
 
   // optional for MVP
-  
+
   export interface ChatPartition {
     partitionKey: string;       
     messages: ChatMessage[];   
