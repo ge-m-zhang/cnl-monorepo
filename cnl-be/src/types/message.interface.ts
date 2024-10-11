@@ -3,7 +3,7 @@ export interface ChatMessage {
   userId: string;    
   sender: "user" | "bot";   
   message: string;          
-  timestamp: Date;          
+  timestamp: string;          
 }
 
   // optional for MVP
@@ -16,5 +16,5 @@ export interface ChatMessage {
   export interface RateLimit {
     userId: string;               
     messagesSent: number;         
-    windowStartTime: Date;        
+    windowStartTime: string;        
   }

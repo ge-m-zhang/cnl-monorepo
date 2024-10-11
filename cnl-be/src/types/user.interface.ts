@@ -5,12 +5,12 @@ export interface User {
   profilePicture?: string;      
   accessToken: string;          
   // chatHistory: ChatMessage[];   
-  firstLogin: Date;             
-  lastLogin: Date;              
+  firstLogin: string;             
+  lastLogin: string;              
 }
 
 export interface UserSession {
   sessionId: string;           
-  sessionStartTime: Date;      
-  sessionExpiryTime: Date;    
+  sessionStartTime: string;      
+  sessionExpiryTime: string;    
 }
