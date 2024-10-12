@@ -5,6 +5,7 @@ const BASE_URL = 'http://localhost:4000/api';
 
 // todo: refactor to smaller functions
 export const apiClient = {
+  // test
   pingBackend: async (): Promise<{ message: string }> => {
     const response = await fetch(`${BASE_URL}/ping`, {
       credentials: 'include', // Include cookies for session handling
@@ -17,6 +18,42 @@ export const apiClient = {
     return response.json();
   },
 
+  //test table
+
+  getDynamoDBTables: async (): Promise<string[]> => {
+    const response = await fetch(`${BASE_URL}/aws/dynamodb/tables`, {
+      credentials: 'include', 
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+
+    return response.json();
+  },
+
+  addTestData: async (testData: { randomId: string; message: string }): Promise<{ message: string }> => {
+    const response = await fetch(`${BASE_URL}/test/add`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(testData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+
+    return response.json();
+  },
+  //---------------------------------------------
+
+  /**
+   * get user profile from auth service
+   * 
+   * @returns usrProfile
+   */
   getProfile: async (): Promise<any> => {
     const response = await fetch(`${BASE_URL}/auth/profile`, {
       credentials: 'include', // Include cookies for session handling
@@ -29,7 +66,11 @@ export const apiClient = {
     return response.json();
   },
 
-  
+/**
+ * Message to GPT and back
+ * @param message 
+ * @returns 
+ */
   sendMessageToGPT: async (message: string): Promise<{ response: string }> => {
     const response = await fetch(`${BASE_URL}/openai/send-to-gpt`, {
       method: 'POST',
@@ -46,18 +87,11 @@ export const apiClient = {
     return response.json();
   },
 
-  getDynamoDBTables: async (): Promise<string[]> => {
-    const response = await fetch(`${BASE_URL}/aws/dynamodb/tables`, {
-      credentials: 'include', 
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
-    }
-
-    return response.json();
-  },
-
+  /**
+   * Get user by email - dynamodb
+   * @param email 
+   * @returns 
+   */
   getUserByEmail: async (email: string): Promise<User | null> => {
     const response = await fetch(`${BASE_URL}/user/get-by-email?email=${email}`, {
       method: 'GET',
@@ -78,6 +112,10 @@ export const apiClient = {
     return response.json();
   },
 
+  /**
+   * Update user profile - dynamodb
+   * @param profile 
+   */
   updateUserProfile: async (profile: User): Promise<void> => {
     const response = await fetch(`${BASE_URL}/user/update-profile`, {
       method: 'POST',
@@ -93,20 +131,4 @@ export const apiClient = {
     }
   },
 
-  //test table
-  addTestData: async (testData: { randomId: string; message: string }): Promise<{ message: string }> => {
-    const response = await fetch(`${BASE_URL}/test/add`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(testData),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
-    }
-
-    return response.json();
-  },
 };
