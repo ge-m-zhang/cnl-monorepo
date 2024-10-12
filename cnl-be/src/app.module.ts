@@ -9,6 +9,8 @@ import { OpenAiController } from './openai/openai.controller';
 import { OpenAiService } from './openai/openai.service';
 import { AWSModule } from './aws/aws.module';
 import { AWSService } from './aws/aws.service';
+import { UserModule } from './user/user.module';
+import { TestModule } from './test/test.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -16,7 +18,9 @@ import { AWSService } from './aws/aws.service';
     isGlobal: true, 
   }),
   AWSModule,
-  AuthModule,],
+  AuthModule,
+  UserModule,
+  TestModule,],
   controllers: [AppController, OpenAiController],
   providers: [AppService, OpenAiService, AWSService],
 })
