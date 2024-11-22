@@ -40,7 +40,9 @@ const ProfilePage: React.FC = () => {
       <div className="w-full h-1 bg-gray-200"></div>
 
       {/* Chat interface */}
-      <ChatInterface />
+      <div className="flex-grow overflow-auto">
+    <ChatInterface />
+  </div>
     </div>
   </div>
 );

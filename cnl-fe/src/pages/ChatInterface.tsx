@@ -9,40 +9,36 @@ import ReactMarkdown from 'react-markdown';
 
 const ChatInterface: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
-  const user = useRecoilValue(userProfileState);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
+  const user = useRecoilValue(userProfileState);
   const [chatMessages, setChatMessages] = useRecoilState(chatMessagesState);
 
   const sendMessageMutation = useMutation({
     mutationFn: (message: string) =>
       apiClient.sendMessageToGPT(JSON.stringify({ message })),
-
     onSuccess: (data) => {
-      
-      if ( !user?.userId) return; 
+      if (!user?.userId) return;
 
       const botMessage: ChatMessage = {
         msgId: 'msg-' + uuidv4(),
-        userId: user.userId, 
+        userId: user.userId,
         sender: 'bot',
-        message: data.response, 
+        message: data.response,
         timestamp: new Date().toISOString(),
       };
-   
-      // Ensure the bot message is added correctly to the chat state
-      setChatMessages((oldMessages) => [...oldMessages, botMessage]);
 
+      setChatMessages((oldMessages) => [...oldMessages, botMessage]);
     },
     onError: (error) => {
       console.error('Error sending message to GPT:', error);
     },
+    
   });
 
-  const { mutate: sendToGPT } = sendMessageMutation;
-// test ChatMessages
-
+  const { mutate: sendToGPT, isPending } = sendMessageMutation;
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || !user?.userId) return;
@@ -56,70 +52,124 @@ const ChatInterface: React.FC = () => {
     };
 
     setChatMessages((oldMessages) => [...oldMessages, userMessage]);
-
+    
     sendToGPT(inputValue);
     setInputValue('');
   };
 
-   useEffect(() => {
+  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [chatMessages]);
+    setShowScrollButton(false); // Hide the scroll button after scrolling
+  };
+
+  const handleScroll = () => {
+    if (!chatContainerRef.current) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+
+    // Show button if the user is not at the bottom
+    setShowScrollButton(scrollHeight - scrollTop - clientHeight > 100);
+  };
+
+  // scroll to bottom when new message is added by user
+  useEffect(() => {
+    if (chatMessages.length > 0) {
+      const lastMessage = chatMessages[chatMessages.length - 1];
+      if (lastMessage.sender === 'user') {
+        scrollToBottom();
+      }
+    }
+  }, [chatMessages]); 
+
+  useEffect(() => {
+    const chatContainer = chatContainerRef.current;
+
+    if (!chatContainer) return;
+
+    chatContainer.addEventListener('scroll', handleScroll);
+    return () => chatContainer.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="flex flex-col bg-white rounded-lg shadow-lg h-full" style={{ maxHeight: '90vh' }}>
-    {/* Display messages */}
-    <div
-      className="flex-grow overflow-y-auto bg-gray-100 rounded-t-lg p-4 space-y-4"
-      style={{ maxHeight: 'calc(65vh - 72px)' }} // Adjust height based on input area height
-      ref={messagesEndRef}
-    >
-      {chatMessages.map((msg) => (
-        <div
-          key={msg.msgId}
-          className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-        >
-          <div
-            className={`${
-              msg.sender === 'user'
-                ? 'bg-blue-500 text-white'
-                : 'bg-green-100 text-gray-700'
-            } p-3 rounded-lg max-w-xs break-words`}
-          >
-            <ReactMarkdown>{msg.message}</ReactMarkdown> 
-          </div>
-        </div>
-      ))}
-      <div ref={messagesEndRef} />
-    </div>
-  
-    {/* Input field for new message */}
-    <div className="w-full flex items-center bg-gray-100 p-2" style={{ height: '72px' }}>
-      <input
-        type="text"
-        placeholder="Type a message..."
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            handleSendMessage();
-          }
-        }}
-        className="flex-grow p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <button
-        onClick={handleSendMessage}
-        className="ml-2 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+      {/* Display messages */}
+      <div
+        ref={chatContainerRef}
+        className="flex-grow overflow-y-auto bg-gray-100 rounded-t-lg p-4 space-y-4"
       >
-        Send
-      </button>
+
+        {chatMessages.map((msg) => (
+          <div
+            key={msg.msgId}
+            className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div
+              className={`${
+                msg.sender === 'user'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-green-100 text-gray-700'
+              } p-3 rounded-lg max-w-xs break-words`}
+            >
+              <ReactMarkdown>{msg.message}</ReactMarkdown>
+            </div>
+          </div>
+        ))}
+
+        {isPending && (
+          <div className="flex justify-start">
+            <div className="bg-gray-300 text-gray-700 p-3 rounded-lg max-w-xs">
+              Thinking...
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+
+      {/* Scroll to Bottom Button */}
+      {showScrollButton && (
+        <button
+        onClick={scrollToBottom}
+        className="absolute bg-blue-300 text-white rounded-full shadow-lg hover:bg-blue-600"
+        style={{
+          top: '80%', 
+          left: '50%', 
+          transform: 'translate(-50%, -50%)',
+          padding: '12px', 
+          zIndex: 10, 
+        }}
+      >
+          ↓
+        </button>
+      )}
+      </div>
+
+      {/* Input field for new message */}
+      <div className="w-full flex items-center bg-gray-100 p-2" style={{ height: '72px' }}>
+        <input
+          type="text"
+          placeholder="Type a message..."
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              handleSendMessage();
+            }
+          }}
+          className="flex-grow p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          onClick={handleSendMessage}
+          className="ml-2 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        >
+          Send
+        </button>
+      </div>
     </div>
-  </div>
-  
   );
 };
 
 export default ChatInterface;
+
 
 
  // fun activities in Ottawa and Montreal
