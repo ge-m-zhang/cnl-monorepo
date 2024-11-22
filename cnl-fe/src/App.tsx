@@ -1,16 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import ProfilePage from './pages/ProfilePage';
 
 
 function App() {
   return (
-    
+    <React.StrictMode>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
- 
+      </React.StrictMode>
   );
 }
 

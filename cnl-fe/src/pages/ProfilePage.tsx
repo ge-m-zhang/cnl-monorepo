@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api/api";
 import { userProfileState } from "../recoil/Object.recoil";
 import { useRecoilState } from "recoil";
@@ -8,10 +7,7 @@ import {  useUserState } from "../utils/userHelpers";
 
 
 const ProfilePage: React.FC = () => {
-
-
   const { error, isLoading } = useUserState();
-
   const [user] = useRecoilState(userProfileState);
 
  useEffect(() => {
@@ -37,7 +33,7 @@ const ProfilePage: React.FC = () => {
             className="w-full h-full object-cover"
           />
         </div>
-        <h1 className="text-3xl font-semibold mb-2">Welcome, {user?.firstName}</h1>
+        <h1 className="text-3xl font-semibold mb-2">Hello, {user?.firstName}</h1>
       </div>
 
       {/* Divider Line */}

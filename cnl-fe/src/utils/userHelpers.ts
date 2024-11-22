@@ -1,6 +1,3 @@
-
-
-
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api/api";
 import { useRecoilState } from "recoil";
@@ -59,8 +56,6 @@ export const useUserState = () => {
     
       return { error, isLoading };
     }
-
-
 
   export  const getUserByEmail = async (email: string) => {
         try {
