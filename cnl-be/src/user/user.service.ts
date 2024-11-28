@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
-import { User } from '../types/user.interface'; // Import your User interface
+import { User } from '../types/user.interface';
 import { AWSService } from 'src/aws/aws.service';
 
 @Injectable()
@@ -19,9 +19,11 @@ export class UserService {
 
   private dynamoDBDocClient = DynamoDBDocumentClient.from(this.dynamoDBClient);
 
+  private readonly tableName = 'users'; 
+
   async getUserByEmail(email: string): Promise<User | null> {
     const params = {
-      TableName: 'users', 
+      TableName: this.tableName, 
       Key: {
         userId: email, 
       },
@@ -45,7 +47,7 @@ export class UserService {
   async updateUserProfile(userProfile: User): Promise<void> {
 
     const params = {
-      TableName: 'users', 
+      TableName: this.tableName, 
       Item: {
         userId: userProfile.userId,
         firstName: userProfile.firstName,

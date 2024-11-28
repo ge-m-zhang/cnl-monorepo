@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { chatMessagesState, userProfileState } from '../recoil/Object.recoil';
 import { apiClient } from '../api/api';
 import { ChatMessage } from '../types/types';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import ReactMarkdown from 'react-markdown';
 
@@ -14,8 +14,35 @@ const ChatInterface: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const user = useRecoilValue(userProfileState);
+  // * Recoil State
   const [chatMessages, setChatMessages] = useRecoilState(chatMessagesState);
+  
+    // Fetch messages on load
+    const { data: chatHistory, error, isFetching } = useQuery({
+      queryKey: ['messages', user?.userId], 
+      queryFn: async () => {
+        if (!user?.userId) {
+          throw new Error('User ID is undefined');
+        }
+        return await apiClient.getMessagesByUserId(user.userId);
+      },
+      enabled: !!user?.userId, // Only run the query when userId exists
+    });
+  
+    useEffect(() => {
+      if (chatHistory) {
+        const sortedChatHistory = [...chatHistory].sort((a, b) => 
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
+        setChatMessages(sortedChatHistory);
+      }
+      else if (error) {
+        console.error('Error fetching messages:', error);
+      }
+    }, [chatHistory, error, setChatMessages]);
 
+    
+  // todo: refactor to antoher file
   const sendMessageMutation = useMutation({
     mutationFn: (message: string) =>
       apiClient.sendMessageToGPT(JSON.stringify({ message })),
@@ -31,6 +58,8 @@ const ChatInterface: React.FC = () => {
       };
 
       setChatMessages((oldMessages) => [...oldMessages, botMessage]);
+  
+    saveMessageMutation.mutate(botMessage);
     },
     onError: (error) => {
       console.error('Error sending message to GPT:', error);
@@ -55,8 +84,20 @@ const ChatInterface: React.FC = () => {
     
     sendToGPT(inputValue);
     setInputValue('');
+
+    saveMessageMutation.mutate(userMessage);
   };
 
+  // todo: refactor to another file
+  const saveMessageMutation = useMutation({
+    mutationFn: async (message: ChatMessage) => {
+      await apiClient.saveMessage(message);
+    },
+    onError: (error) => {
+      console.error('Error saving message:', error);
+    },
+  });
+   
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     setShowScrollButton(false); // Hide the scroll button after scrolling
@@ -169,7 +210,3 @@ const ChatInterface: React.FC = () => {
 };
 
 export default ChatInterface;
-
-
-
- // fun activities in Ottawa and Montreal

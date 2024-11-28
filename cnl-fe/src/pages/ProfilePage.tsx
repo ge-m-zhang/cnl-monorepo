@@ -14,7 +14,6 @@ const ProfilePage: React.FC = () => {
   if (user?.userId) {
     apiClient.updateUserProfile(user);
   }
-
  }, [user]);
 
   if (isLoading) return <div>Loading...</div>;

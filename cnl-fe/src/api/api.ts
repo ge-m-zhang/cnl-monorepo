@@ -1,4 +1,4 @@
-import { User } from "../types/types";
+import { ChatMessage, User } from "../types/types";
 
 // api.ts
 const BASE_URL = 'http://localhost:4000/api';
@@ -130,5 +130,42 @@ export const apiClient = {
       throw new Error(`Error: ${response.statusText}`);
     }
   },
+  
+/**
+ * Get messages by userId from DynamoDB
+ * @param userId - The user's ID
+ * @returns An array of ChatMessage objects
+ */
+getMessagesByUserId: async (userId: string): Promise<ChatMessage[]> => {
+  const response = await fetch(`${BASE_URL}/messages/get-by-user?userId=${userId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
+  if (!response.ok) {
+    throw new Error(`Error fetching messages: ${response.statusText}`);
+  }
+
+  return response.json();
+},
+
+  /**
+   * Save a message to DynamoDB
+   * @param message - The chat message object to save
+   */
+  saveMessage: async (message: ChatMessage): Promise<void> => {
+    const response = await fetch(`${BASE_URL}/messages/save`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error saving message: ${response.statusText}`);
+    }
+  },
 };
