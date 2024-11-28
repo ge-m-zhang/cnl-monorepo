@@ -11,6 +11,7 @@ import { AWSModule } from './aws/aws.module';
 import { AWSService } from './aws/aws.service';
 import { UserModule } from './user/user.module';
 import { TestModule } from './test/test.module';
+import { MessagesModule } from './message/message.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -19,6 +20,7 @@ import { TestModule } from './test/test.module';
   }),
   AWSModule,
   AuthModule,
+  MessagesModule,
   UserModule,
   TestModule,],
   controllers: [AppController, OpenAiController],
