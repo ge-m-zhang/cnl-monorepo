@@ -4,11 +4,14 @@ import { AppModule } from './app.module';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { SessionSerializer } from './auth/auth.module';
+import { ConfigurationService } from './configuration/configuration.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');  // Set global prefix for all routes
+
+  const configService = app.get(ConfigurationService);
 
   // Session middleware configuration
   app.use(
@@ -34,10 +37,12 @@ async function bootstrap() {
   passport.serializeUser(sessionSerializer.serializeUser.bind(sessionSerializer));
   passport.deserializeUser(sessionSerializer.deserializeUser.bind(sessionSerializer));
 
+  const { port } = configService.getServerConfig(); 
+  const { host } = configService.getClientConfig(); // FE
 
     app.enableCors({
       //! replace this with an env varialbe
-      origin: 'http://localhost:3000',  
+      origin: host,
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  // Allowed HTTP methods
       credentials: true,  // Enable credentials (cookies, sessions)
       allowedHeaders:'Content-Type, Authorization, X-PubDash-ID, Set-Cookie',
@@ -46,6 +51,6 @@ async function bootstrap() {
       preflightContinue: false,
     });
 
-    await app.listen(4000);
+    await app.listen(port);
 }
 bootstrap();

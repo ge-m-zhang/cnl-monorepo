@@ -1,25 +1,50 @@
-import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../api/api";
+import { userProfileState } from "../recoil/Object.recoil";
+import { useRecoilState } from "recoil";
+import { useEffect } from "react";
+import ChatInterface from "./ChatInterface";
+import {  useUserState } from "../utils/userHelpers";
 
 
 const ProfilePage: React.FC = () => {
+  const { error, isLoading } = useUserState();
+  const [user] = useRecoilState(userProfileState);
+
+ useEffect(() => {
+  if (user?.userId) {
+    apiClient.updateUserProfile(user);
+  }
+ }, [user]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error fetching profile data</div>;
    
-  const { data: profile, error, isLoading } = useQuery({
-    queryKey: ['getProfile'],
-    queryFn: apiClient.getProfile
-  });
-  
-console.log("profile: ",profile);
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error fetching profile data</div>;
-  
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-        <h1 className="text-4xl font-bold mb-8">Welcome, {profile.firstName}</h1>
-        <p>Email: {profile.email}</p>
-        <img src={profile.picture} alt="Profile" className="rounded-full" />
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    {/* Main container */}
+    <div className="w-full max-w-4xl mx-auto bg-white shadow-lg rounded-lg flex flex-col h-[90vh] p-8 space-y-6">
+      {/* Profile image and name */}
+      <div className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-full overflow-hidden">
+          <img
+            src={user?.profilePicture || 'https://via.placeholder.com/150'}
+            alt="Profile"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <h1 className="text-3xl font-semibold mb-2">Hello, {user?.firstName}</h1>
       </div>
-    );
-  };
+
+      {/* Divider Line */}
+      <div className="w-full h-1 bg-gray-200"></div>
+
+      {/* Chat interface */}
+      <div className="flex-grow overflow-auto">
+    <ChatInterface />
+  </div>
+    </div>
+  </div>
+);
+};
   
   export default ProfilePage;

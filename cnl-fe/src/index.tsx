@@ -6,6 +6,7 @@ import './styles/global.css'; // Import Tailwind CSS
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import reportWebVitals from './reportWebVitals';
+import { RecoilRoot } from 'recoil';
 
 // Create a QueryClient instance
 const queryClient = new QueryClient();
@@ -16,10 +17,11 @@ root.render(
   <React.StrictMode>
     {/* Provide TanStack Query context */}
     <QueryClientProvider client={queryClient}>
-      {/* Include React Router */}
+    <RecoilRoot>
       <Router>
         <App />
       </Router>
+      </RecoilRoot>
     </QueryClientProvider>
   </React.StrictMode>
 );

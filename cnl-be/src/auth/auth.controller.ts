@@ -1,10 +1,10 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Response, Request } from 'express';
+import { ConfigurationService } from '../configuration/configuration.service'; // Import ConfigurationService
 
 @Controller('auth')
 export class AuthController {
-
+  constructor(private readonly configService: ConfigurationService) {} // Inject ConfigurationService
     /*
     // Start Google OAuth flow
   @Get('google')  // Route will be /api/auth/google
@@ -32,8 +32,8 @@ googleAuthRedirect(@Req() req, @Res() res) {
     if (err) {
       console.error('Error saving session:', err);
     }
-    
-    res.redirect('/api/auth/profile');
+    const host = this.configService.getHost();
+    res.redirect(`${host}/profile`);
   });
 }
   
@@ -42,7 +42,7 @@ googleAuthRedirect(@Req() req, @Res() res) {
 @Get('profile')
 getProfile(@Req() req) {
   if (req.session.user) {
-    console.log('Profile request session:', req.session.user);  
+    // console.log('Profile request session:', req.session.user);  
     return { profile: req.session.user };  
   } else {
     return { message: 'User is undefined' };  

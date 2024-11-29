@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 
  import { PassportSerializer } from '@nestjs/passport';
+import { ConfigurationModule } from 'src/configuration/configuration.modules';
 
  @Injectable()
  export class SessionSerializer extends PassportSerializer {
@@ -24,9 +25,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
     imports: [
-      ConfigModule.forRoot({
-        isGlobal: true,  
-      }), 
       PassportModule.register({ session: true }), 
       JwtModule.registerAsync({
         imports: [ConfigModule],
@@ -36,6 +34,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           signOptions: { expiresIn: '1d' },  
         }),
       }),
+      ConfigurationModule,
     ],
     controllers: [AuthController],
     providers: [GoogleStrategy, AuthService, SessionSerializer],
