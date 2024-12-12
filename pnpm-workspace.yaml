@@ -1,4 +1,4 @@
 # pnpm-workspace.yaml
 packages:
-  - 'app/cnl-fe'
-  - 'app/cnl-be'
+  - 'cnl/cnl-fe'
+  - 'cnl/cnl-be'
