@@ -1,13 +1,14 @@
 import {
-  Controller,
-  Post,
-  Body,
-  Get,
-  Query,
   BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
 } from '@nestjs/common';
-import { MessageService } from './message.service';
 import { ChatMessage } from 'src/types/message.interface';
+
+import { MessageService } from './message.service';
 
 @Controller('messages')
 export class MessageController {

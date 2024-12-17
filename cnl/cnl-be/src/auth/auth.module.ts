@@ -1,23 +1,26 @@
 // auth.module.ts
 import { Injectable, Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
-import { AuthController } from './auth.controller';
-import { GoogleStrategy } from './strategies/google.strategy';
-import { AuthService } from './auth.service';
-import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 // Import the Google strategy
-
 import { PassportSerializer } from '@nestjs/passport';
 import { ConfigurationModule } from 'src/configuration/configuration.modules';
 
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { GoogleStrategy } from './strategies/google.strategy';
+
 @Injectable()
 export class SessionSerializer extends PassportSerializer {
-  serializeUser(user: any, done: (err: any, id?: any) => void) {
-    done(null, user);
+  serializeUser(user: Express.User, done: (err: unknown, id?: string) => void) {
+    done(null, JSON.stringify(user));
   }
 
-  deserializeUser(payload: any, done: (err: any, user?: any) => void) {
+  deserializeUser(
+    payload: unknown,
+    done: (err: unknown, user?: unknown) => void,
+  ) {
     done(null, payload);
   }
 }

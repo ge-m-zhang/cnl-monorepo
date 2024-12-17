@@ -9,7 +9,8 @@ export class AuthService {
     private readonly configService: ConfigService, // Inject ConfigService
   ) {}
 
-  async login(user: any) {
+  // todo
+  async login(user: { email: string; userId: string }) {
     const payload = { username: user.email, sub: user.userId };
 
     // expire in..

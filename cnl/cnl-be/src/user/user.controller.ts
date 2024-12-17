@@ -1,13 +1,14 @@
 import {
-  Controller,
-  Post,
   Body,
+  Controller,
   Get,
-  Query,
   NotFoundException,
+  Post,
+  Query,
 } from '@nestjs/common';
-import { UserService } from './user.service';
+
 import { User } from '../types/user.interface';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {

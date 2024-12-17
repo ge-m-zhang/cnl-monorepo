@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { AWSModule } from 'src/aws/aws.module';
+
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { AWSModule } from 'src/aws/aws.module';
 
 @Module({
   imports: [AWSModule],

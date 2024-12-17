@@ -14,3 +14,13 @@ export interface UserSession {
   sessionStartTime: string;
   sessionExpiryTime: string;
 }
+
+export interface GoogleProfile {
+  profile: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    picture: string;
+    accessToken: string;
+  };
+}

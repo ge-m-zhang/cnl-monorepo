@@ -1,16 +1,17 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-} from '@nestjs/common';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
   GetCommand,
   PutCommand,
 } from '@aws-sdk/lib-dynamodb';
-import { User } from '../types/user.interface';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { AWSService } from 'src/aws/aws.service';
+
+import { User } from '../types/user.interface';
 
 @Injectable()
 export class UserService {

@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-
 import * as session from 'express-session';
 import * as passport from 'passport';
+
+import { AppModule } from './app.module';
 import { SessionSerializer } from './auth/auth.module';
 import { ConfigurationService } from './configuration/configuration.service';
 

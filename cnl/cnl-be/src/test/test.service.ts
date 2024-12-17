@@ -1,7 +1,7 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { AWSService } from 'src/aws/aws.service';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { AWSService } from 'src/aws/aws.service';
 
 @Injectable()
 export class TestService {
@@ -15,7 +15,7 @@ export class TestService {
     },
   });
   private dynamoDBDocClient = DynamoDBDocumentClient.from(this.dynamoDBClient);
-  configService: any;
+  configService: unknown;
 
   async addTestData(testData: {
     randomId: string;

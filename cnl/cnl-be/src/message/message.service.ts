@@ -1,12 +1,13 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
   PutCommand,
   QueryCommand,
 } from '@aws-sdk/lib-dynamodb';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { ChatMessage } from '../types/message.interface';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+
 import { AWSService } from '../aws/aws.service';
+import { ChatMessage } from '../types/message.interface';
 
 @Injectable()
 export class MessageService {

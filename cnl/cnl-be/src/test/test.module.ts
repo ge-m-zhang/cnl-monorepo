@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { TestService } from './test.service';
-import { TestController } from './test.controller';
 import { AWSModule } from 'src/aws/aws.module';
+
+import { TestController } from './test.controller';
+import { TestService } from './test.service';
 
 @Module({
   imports: [AWSModule],
