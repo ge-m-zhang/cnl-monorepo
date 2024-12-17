@@ -28,7 +28,6 @@ Thumbs.db
 .pnp/
 .pnp.js
 .pnpm-debug.log
-pnpm-lock.yaml
 
 # IDE/Editor-specific files
 .vscode/
