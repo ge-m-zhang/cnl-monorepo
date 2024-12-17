@@ -18,9 +18,7 @@
     "react-scripts": "5.0.1",
     "recoil": "^0.7.7",
     "uuid": "^10.0.0",
-    "web-vitals": "^2.1.4",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^18.0.0"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "serve -s build",
@@ -52,6 +50,8 @@
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^18.0.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.0.0",
