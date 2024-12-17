@@ -1,9 +1,10 @@
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+
 import { apiClient } from "../api/api";
 import { userProfileState } from "../recoil/Object.recoil";
-import { useRecoilState } from "recoil";
-import { useEffect } from "react";
-import ChatInterface from "./ChatInterface";
 import {  useUserState } from "../utils/userHelpers";
+import ChatInterface from "./ChatInterface";
 
 
 const ProfilePage: React.FC = () => {
@@ -36,7 +37,7 @@ const ProfilePage: React.FC = () => {
       </div>
 
       {/* Divider Line */}
-      <div className="w-full h-1 bg-gray-200"></div>
+      <div className="w-full h-1 bg-gray-200" />
 
       {/* Chat interface */}
       <div className="flex-grow overflow-auto">

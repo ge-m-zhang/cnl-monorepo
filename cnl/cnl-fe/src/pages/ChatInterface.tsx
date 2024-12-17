@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { chatMessagesState, userProfileState } from '../recoil/Object.recoil';
-import { apiClient } from '../api/api';
-import { ChatMessage } from '../types/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useEffect, useRef,useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { v4 as uuidv4 } from 'uuid';
+
+import { apiClient } from '../api/api';
+import { chatMessagesState, userProfileState } from '../recoil/Object.recoil';
+import { ChatMessage } from '../types/types';
 
 const ChatInterface: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
@@ -18,13 +19,15 @@ const ChatInterface: React.FC = () => {
   const [chatMessages, setChatMessages] = useRecoilState(chatMessagesState);
   
     // Fetch messages on load
+    // todo 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { data: chatHistory, error, isFetching } = useQuery({
       queryKey: ['messages', user?.userId], 
       queryFn: async () => {
         if (!user?.userId) {
           throw new Error('User ID is undefined');
         }
-        return await apiClient.getMessagesByUserId(user.userId);
+        return apiClient.getMessagesByUserId(user.userId);
       },
       enabled: !!user?.userId, // Only run the query when userId exists
     });
@@ -50,7 +53,7 @@ const ChatInterface: React.FC = () => {
       if (!user?.userId) return;
 
       const botMessage: ChatMessage = {
-        msgId: 'msg-' + uuidv4(),
+        msgId: `msg-${  uuidv4()}`,
         userId: user.userId,
         sender: 'bot',
         message: data.response,
@@ -61,8 +64,8 @@ const ChatInterface: React.FC = () => {
   
     saveMessageMutation.mutate(botMessage);
     },
-    onError: (error) => {
-      console.error('Error sending message to GPT:', error);
+    onError: (err) => {
+      console.error('Error sending message to GPT:', err);
     },
     
   });
@@ -73,7 +76,7 @@ const ChatInterface: React.FC = () => {
     if (!inputValue.trim() || !user?.userId) return;
 
     const userMessage: ChatMessage = {
-      msgId: 'msg-' + uuidv4(),
+      msgId: `msg-${  uuidv4()}`,
       userId: user?.userId,
       sender: 'user',
       message: inputValue,
@@ -93,8 +96,8 @@ const ChatInterface: React.FC = () => {
     mutationFn: async (message: ChatMessage) => {
       await apiClient.saveMessage(message);
     },
-    onError: (error) => {
-      console.error('Error saving message:', error);
+    onError: (err) => {
+      console.error('Error saving message:', err);
     },
   });
    
@@ -128,7 +131,10 @@ const ChatInterface: React.FC = () => {
     if (!chatContainer) return;
 
     chatContainer.addEventListener('scroll', handleScroll);
-    return () => chatContainer.removeEventListener('scroll', handleScroll);
+    // eslint-disable-next-line consistent-return
+    return () => {
+      chatContainer.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
@@ -167,7 +173,8 @@ const ChatInterface: React.FC = () => {
 
       {/* Scroll to Bottom Button */}
       {showScrollButton && (
-        <button
+      <button
+        type="button"
         onClick={scrollToBottom}
         className="absolute bg-blue-300 text-white rounded-full shadow-lg hover:bg-blue-600"
         style={{
@@ -178,8 +185,8 @@ const ChatInterface: React.FC = () => {
           zIndex: 10, 
         }}
       >
-          ↓
-        </button>
+        ↓
+      </button>
       )}
       </div>
 
@@ -199,6 +206,7 @@ const ChatInterface: React.FC = () => {
           className="flex-grow p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
+          type="button"
           onClick={handleSendMessage}
           className="ml-2 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
         >

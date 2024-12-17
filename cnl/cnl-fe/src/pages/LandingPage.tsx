@@ -1,7 +1,8 @@
-import React from 'react';
-import { GoogleLoginButton } from '../components/auth/GoogleLoginButton';
 import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+
 import { apiClient } from '../api/api';
+import { GoogleLoginButton } from '../components/auth/GoogleLoginButton';
 
 export const LandingPage: React.FC = () => {
 

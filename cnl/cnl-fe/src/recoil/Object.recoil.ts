@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+
 import { ChatMessage, User } from '../types/types';
 
 export const userProfileState = atom<User | null>({

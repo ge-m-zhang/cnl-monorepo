@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiClient } from "../api/api";
-import { useRecoilState } from "recoil";
-import { userProfileState } from "../recoil/Object.recoil";
 import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+
+import { apiClient } from "../api/api";
+import { userProfileState } from "../recoil/Object.recoil";
 import { User } from "../types/types";
 
 // util functions for user management
@@ -10,11 +11,13 @@ import { User } from "../types/types";
 // if exists, set userProfileState, if not, add current time as firstLogin 
 export const useUserState = () => {
 
-    const { data, error, isLoading } = useQuery({
+    const { data, error, isLoading } = useQuery<{ profile: { email: string; firstName: string; lastName: string; picture: string; accessToken: string } }>({
         queryKey: ['getProfile'],
         queryFn: apiClient.getProfile
       });
    
+      // todo
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const  [userProfile, setUserProfile] = useRecoilState(userProfileState);
  
       useEffect(() => {

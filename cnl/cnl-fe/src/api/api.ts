@@ -1,4 +1,4 @@
-import { ChatMessage, User } from "../types/types";
+import { ChatMessage, GoogleProfile, User } from "../types/types";
 
 // api.ts
 const BASE_URL = 'http://localhost:4000/api';
@@ -17,8 +17,6 @@ export const apiClient = {
 
     return response.json();
   },
-
-  //test table
 
   getDynamoDBTables: async (): Promise<string[]> => {
     const response = await fetch(`${BASE_URL}/aws/dynamodb/tables`, {
@@ -54,7 +52,7 @@ export const apiClient = {
    * 
    * @returns usrProfile
    */
-  getProfile: async (): Promise<any> => {
+  getProfile: async (): Promise<GoogleProfile> => {
     const response = await fetch(`${BASE_URL}/auth/profile`, {
       credentials: 'include', // Include cookies for session handling
     });
@@ -104,9 +102,9 @@ export const apiClient = {
     if (!response.ok) {
       if (response.status === 404) {
         return null;  // Return null if the user is not found
-      } else {
+      } 
         throw new Error(`Error: ${response.statusText}`);
-      }
+      
     }
 
     return response.json();

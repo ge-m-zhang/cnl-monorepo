@@ -17,3 +17,12 @@ export interface User {
     timestamp: string;
   }
   
+  export interface GoogleProfile {
+    profile: {
+      email: string;
+      firstName: string;
+      lastName: string;
+      picture: string;
+      accessToken: string;
+    };
+  }

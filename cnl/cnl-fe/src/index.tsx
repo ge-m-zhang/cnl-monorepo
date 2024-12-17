@@ -1,12 +1,14 @@
+import './index.css';
+import './styles/global.css'; // Import Tailwind CSS
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import './styles/global.css'; // Import Tailwind CSS
 import { BrowserRouter as Router } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';
+
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
 // Create a QueryClient instance
 const queryClient = new QueryClient();
