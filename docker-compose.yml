@@ -1,0 +1,25 @@
+version: "0.1.0"
+app:
+  container_name: cnl-fe-container
+  build:
+    context: .
+    dockerfile: ./cnl/cnl-fe/Dockerfile
+  restart: always
+  environment:
+    - APP_ENV=development
+  ports:
+    - 3000:3000
+
+services:
+  backend:
+    image: cnl-be
+    container_name: cnl-be-container
+    build:
+    context: .
+    dockerfile: ./cnl/cnl-be/Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - ./cnl/cnl-be/.env

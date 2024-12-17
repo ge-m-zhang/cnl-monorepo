@@ -1,23 +1,12 @@
 {
-    "pipeline": {
-      "build": {
-        "dependsOn": ["^build"],
-        "outputs": ["dist/**"]
-      },
-      "start": {
-        "cache": false   
-      },
-      "start:dev": {
-        "cache": false 
-      },
-      "format": {},
-      "lint": {},
-      "test": {},
-
-      "prod": {
-        "dependsOn": ["build"]
-      },
-      "test:coverage": {}
+"pipeline": {
+    "start:dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+      }
     }
   }
-  
