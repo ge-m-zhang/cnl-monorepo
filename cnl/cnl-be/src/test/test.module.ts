@@ -4,8 +4,8 @@ import { TestController } from './test.controller';
 import { AWSModule } from 'src/aws/aws.module';
 
 @Module({
-  imports:[AWSModule], 
-  controllers: [TestController], 
-  providers: [TestService],       
+  imports: [AWSModule],
+  controllers: [TestController],
+  providers: [TestService],
 })
 export class TestModule {}

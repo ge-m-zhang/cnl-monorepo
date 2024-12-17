@@ -1,6 +1,14 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { User } from '../types/user.interface';
 import { AWSService } from 'src/aws/aws.service';
 
@@ -11,21 +19,21 @@ export class UserService {
 
   private dynamoDBClient = new DynamoDBClient({
     region: this.awsService.region,
-    credentials:{
-      accessKeyId: this.awsService.accessKey,  
+    credentials: {
+      accessKeyId: this.awsService.accessKey,
       secretAccessKey: this.awsService.secretKey,
     },
   });
 
   private dynamoDBDocClient = DynamoDBDocumentClient.from(this.dynamoDBClient);
 
-  private readonly tableName = 'users'; 
+  private readonly tableName = 'users';
 
   async getUserByEmail(email: string): Promise<User | null> {
     const params = {
-      TableName: this.tableName, 
+      TableName: this.tableName,
       Key: {
-        userId: email, 
+        userId: email,
       },
     };
 
@@ -36,18 +44,17 @@ export class UserService {
       if (result.Item) {
         return result.Item as User;
       } else {
-        return null;  // Return null if no user found
+        return null; // Return null if no user found
       }
     } catch (error) {
       console.error('Error fetching user by email:', error);
       throw new InternalServerErrorException('Error fetching user by email');
     }
   }
-  
-  async updateUserProfile(userProfile: User): Promise<void> {
 
+  async updateUserProfile(userProfile: User): Promise<void> {
     const params = {
-      TableName: this.tableName, 
+      TableName: this.tableName,
       Item: {
         userId: userProfile.userId,
         firstName: userProfile.firstName,
@@ -64,8 +71,10 @@ export class UserService {
       await this.dynamoDBDocClient.send(command);
       Logger.log('Profile updated successfully');
     } catch (error) {
-    Logger.error('Error updating profile in DynamoDB', error);
-      throw new InternalServerErrorException('Error updating profile in DynamoDB');
+      Logger.error('Error updating profile in DynamoDB', error);
+      throw new InternalServerErrorException(
+        'Error updating profile in DynamoDB',
+      );
     }
   }
 }

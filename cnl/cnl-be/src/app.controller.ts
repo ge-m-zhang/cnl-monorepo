@@ -12,7 +12,6 @@ export class AppController {
 
   @Get('ping')
   ping() {
-    return { message: 'connected!!' };  
+    return { message: 'connected!!' };
   }
-  
 }

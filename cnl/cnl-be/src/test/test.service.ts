@@ -1,28 +1,26 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
-import { AWSService } from 'src/aws/aws.service'; 
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { AWSService } from 'src/aws/aws.service';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand} from '@aws-sdk/lib-dynamodb';
-
+import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 @Injectable()
 export class TestService {
-
   constructor(private readonly awsService: AWSService) {}
 
   private dynamoDBClient = new DynamoDBClient({
     region: this.awsService.region,
-    credentials:{
-      accessKeyId: this.awsService.accessKey,  
+    credentials: {
+      accessKeyId: this.awsService.accessKey,
       secretAccessKey: this.awsService.secretKey,
     },
   });
   private dynamoDBDocClient = DynamoDBDocumentClient.from(this.dynamoDBClient);
   configService: any;
 
- 
-  
-  async addTestData(testData: { randomId: string; message: string }): Promise<void> {
-
+  async addTestData(testData: {
+    randomId: string;
+    message: string;
+  }): Promise<void> {
     const params = {
       TableName: 'test-table',
       Item: {

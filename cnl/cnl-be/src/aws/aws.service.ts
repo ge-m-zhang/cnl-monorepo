@@ -1,12 +1,11 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { DynamoDBClient, ListTablesCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
-import { fromEnv } from '@aws-sdk/credential-providers';
+
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AWSService implements OnModuleInit {
-
   public readonly region: string;
   public readonly accessKey: string;
   public readonly secretKey: string;
@@ -16,7 +15,9 @@ export class AWSService implements OnModuleInit {
   constructor(private readonly configService: ConfigService) {
     this.region = this.configService.get<string>('AWS_DEFAULT_REGION');
     this.accessKey = this.configService.get<string>('AWS_CNL_ACCESS_KEY');
-    this.secretKey = this.configService.get<string>('AWS_CNL_SECRET_ACCESS_KEY');
+    this.secretKey = this.configService.get<string>(
+      'AWS_CNL_SECRET_ACCESS_KEY',
+    );
   }
 
   async onModuleInit() {
@@ -25,15 +26,13 @@ export class AWSService implements OnModuleInit {
 
   // Initialize DynamoDB connection
   private async initializeDynamoDBConnection() {
-
-
     try {
       const client = new DynamoDBClient({
         region: this.region,
         credentials: {
-            accessKeyId: this.accessKey,  
-            secretAccessKey: this.secretKey,
-          },
+          accessKeyId: this.accessKey,
+          secretAccessKey: this.secretKey,
+        },
       });
 
       this.ddbClient = DynamoDBDocumentClient.from(client);

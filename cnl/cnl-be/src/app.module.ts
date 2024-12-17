@@ -14,15 +14,17 @@ import { TestModule } from './test/test.module';
 import { MessagesModule } from './message/message.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    load: [environment],
-    isGlobal: true, 
-  }),
-  AWSModule,
-  AuthModule,
-  MessagesModule,
-  UserModule,
-  TestModule,],
+  imports: [
+    ConfigModule.forRoot({
+      load: [environment],
+      isGlobal: true,
+    }),
+    AWSModule,
+    AuthModule,
+    MessagesModule,
+    UserModule,
+    TestModule,
+  ],
   controllers: [AppController, OpenAiController],
   providers: [AppService, OpenAiService, AWSService],
 })

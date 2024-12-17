@@ -1,6 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { ClientConfig, GoogleAuthConfig, ServerConfig } from "src/environments/environment";
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import {
+  ClientConfig,
+  GoogleAuthConfig,
+  ServerConfig,
+} from 'src/environments/environment';
 
 @Injectable()
 export class ConfigurationService {
@@ -20,7 +24,7 @@ export class ConfigurationService {
   getHost(): string {
     return this.getClientConfig().host;
   }
-/*
+  /*
   getAwsConfig(): AWSConfig {
     return this.configService.getOrThrow<AWSConfig>('aws');
   }

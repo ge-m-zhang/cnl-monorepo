@@ -5,8 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [ConfigModule],
-  controllers: [AWSController], 
+  controllers: [AWSController],
   providers: [AWSService],
-  exports: [AWSService], 
+  exports: [AWSService],
 })
 export class AWSModule {}

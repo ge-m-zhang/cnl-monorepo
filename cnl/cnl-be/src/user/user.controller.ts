@@ -1,6 +1,13 @@
-import { Controller, Post, Body, Get, Query, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Query,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from '../types/user.interface'; 
+import { User } from '../types/user.interface';
 
 @Controller('user')
 export class UserController {
@@ -18,7 +25,9 @@ export class UserController {
   }
 
   @Post('update-profile')
-  async updateUserProfile(@Body() userProfile: User): Promise<{ message: string }> {
+  async updateUserProfile(
+    @Body() userProfile: User,
+  ): Promise<{ message: string }> {
     await this.userService.updateUserProfile(userProfile);
     return { message: 'Profile updated successfully' };
   }

@@ -1,5 +1,9 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { DynamoDBDocumentClient, PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  QueryCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { ChatMessage } from '../types/message.interface';
 import { AWSService } from '../aws/aws.service';
@@ -18,7 +22,7 @@ export class MessageService {
 
   private dynamoDBDocClient = DynamoDBDocumentClient.from(this.dynamoDBClient);
 
-  private readonly tableName = 'messages'; 
+  private readonly tableName = 'messages';
   // Save a single message
   async saveMessage(message: ChatMessage): Promise<void> {
     const params = {
@@ -37,12 +41,14 @@ export class MessageService {
       await this.dynamoDBDocClient.send(command);
     } catch (error) {
       console.error('Error saving message to DynamoDB:', error);
-      throw new InternalServerErrorException('Error saving message to DynamoDB');
+      throw new InternalServerErrorException(
+        'Error saving message to DynamoDB',
+      );
     }
   }
 
-// Retrieve messages by userId
-async getMessagesByUserId(userId: string): Promise<ChatMessage[]> {
+  // Retrieve messages by userId
+  async getMessagesByUserId(userId: string): Promise<ChatMessage[]> {
     const params = {
       TableName: this.tableName,
       IndexName: 'UserIdIndex', // created the userId index
@@ -53,17 +59,19 @@ async getMessagesByUserId(userId: string): Promise<ChatMessage[]> {
     };
 
     try {
-        const command = new QueryCommand(params);
-        const result = await this.dynamoDBDocClient.send(command);
-  
-        if (!result.Items) {
-          return [];
-        }
-  
-        return result.Items as ChatMessage[];
-      } catch (error) {
-        console.error('Error retrieving messages by userId:', error);
-        throw new InternalServerErrorException('Error retrieving messages by userId');
+      const command = new QueryCommand(params);
+      const result = await this.dynamoDBDocClient.send(command);
+
+      if (!result.Items) {
+        return [];
       }
+
+      return result.Items as ChatMessage[];
+    } catch (error) {
+      console.error('Error retrieving messages by userId:', error);
+      throw new InternalServerErrorException(
+        'Error retrieving messages by userId',
+      );
+    }
   }
 }
