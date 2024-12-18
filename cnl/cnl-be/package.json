@@ -1,8 +1,8 @@
 {
   "name": "cnl-be",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
-  "author": "Ge Zhang",
+  "author": "GMZhang",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

@@ -1,6 +1,6 @@
 {
-  "name": "cnl-mono-repo",
-  "version": "0.1.0",
+  "name": "chat-and-learn",
+  "version": "0.1.1",
   "private": true,
  "scripts": {
   "start": "turbo run start --parallel",
