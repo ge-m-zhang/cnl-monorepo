@@ -8,9 +8,6 @@ export const LandingPage: React.FC = () => {
 
   const {  error:pingError } = useQuery({ queryKey: ['pingBackend'], queryFn: apiClient.pingBackend });
 
-  // GPT-3.5
-  // const message = "Hello, GPT! which model are you based on?";
- 
    if (pingError) return <div>Error fetching data</div>; 
 
   return (
