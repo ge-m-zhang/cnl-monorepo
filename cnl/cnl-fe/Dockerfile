@@ -62,6 +62,6 @@ RUN chown -R 101:101 /app /usr/share/nginx/html
 # Switch to non-root user
 USER 101
 
+EXPOSE 3000
 # Start NGINX
-
 CMD ["nginx", "-g", "daemon off;"]

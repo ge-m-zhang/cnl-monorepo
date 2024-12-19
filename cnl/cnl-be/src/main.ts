@@ -55,6 +55,6 @@ async function bootstrap() {
     preflightContinue: false,
   });
 
-  await app.listen(port);
+  await app.listen(port || 4000, '0.0.0.0');
 }
 bootstrap();
