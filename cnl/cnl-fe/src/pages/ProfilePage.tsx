@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 
 import { apiClient } from "../api/api";
 import { userProfileState } from "../recoil/Object.recoil";
-import {  useUserState } from "../utils/userHelpers";
+import { useUserState } from "../utils/userHelpers";
 import ChatInterface from "./ChatInterface";
 
 
@@ -30,6 +30,7 @@ const ProfilePage: React.FC = () => {
           <img
             src={user?.profilePicture || 'https://via.placeholder.com/150'}
             alt="Profile"
+            crossOrigin="anonymous"
             className="w-full h-full object-cover"
           />
         </div>
