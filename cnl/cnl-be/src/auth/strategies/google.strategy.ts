@@ -43,15 +43,3 @@ export type responseProfile = {
   name: { familyName: string; givenName: string };
   photos: { value: string }[];
 };
-
-/*
- [{
-"id":"111649612817649230042",
- "displayName":"Melody Zhang",
- "name":{"familyName":"Zhang","givenName":"Melody"},
- "emails":[{"value":"melodyzhang0701@gmail.com","verified":true}],
- "photos":[{"value":"https://lh3.googleusercontent.com/a/ACg8ocJNZgIx13_5g2qrQVDjb7FrXhiwsuXcpl3C01b_GvLovyMJN_WC=s96-c"}],
-  "provider":"google","_raw":"{\n  \"sub\": \"111649612817649230042\",\n  \"name\": \"Melody Zhang\",\n  \"given_name\": \"Melody\",\n  \"family_name\": \"Zhang\",\n  \"picture\": \"https://lh3.googleusercontent.com/a/ACg8ocJNZgIx13_5g2qrQVDjb7FrXhiwsuXcpl3C01b_GvLovyMJN_WC\\u003ds96-c\",\n  \"email\": \"melodyzhang0701@gmail.com\",\n  \"email_verified\": true\n}",
-  "_json":{"sub":"111649612817649230042","name":"Melody Zhang","given_name":"Melody","family_name":"Zhang","picture":"https://lh3.googleusercontent.com/a/ACg8ocJNZgIx13_5g2qrQVDjb7FrXhiwsuXcpl3C01b_GvLovyMJN_WC=s96-c","email":"melodyzhang0701@gmail.com","email_verified":true}}] 
-  profile***
- */
