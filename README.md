@@ -1,5 +1,8 @@
 # Chat & Learn (CNL) - AI Chatbot  
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ge-m-zhang/cnl-monorepo)
+
+
 [Visit the deployed site](https://bpcfn5pdkt.us-east-2.awsapprunner.com)  
 
 ## Overview  
